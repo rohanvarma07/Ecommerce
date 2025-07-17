@@ -25,7 +25,7 @@ function AddProduct() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/products', formData, {
+      const response = await axios.post('http://localhost:8081/api/products', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // Crucial for file uploads
         },

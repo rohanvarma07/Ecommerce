@@ -1,0 +1,210 @@
+/* ---
+   1. Design System & Globals
+--- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* --- Light Theme (Default) --- */
+  --color-primary: #007aff;
+  --color-primary-dark: #0056b3;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text-primary: #1d2d35;
+  --color-text-secondary: #8a94a6;
+  --color-border: #e9ecef;
+  --color-disabled-bg: #e9ecef;
+  --font-main: 'Inter', sans-serif;
+  --border-radius: 12px;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05); /* Added for a subtle lift */
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-background);
+  color: var(--color-text-primary); /* Corrected variable name */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6; /* Improved readability */
+}
+
+
+/* ---
+   2. Main Layout
+--- */
+.product-detail-container {
+  max-width: 960px; /* Slightly reduced max-width for a more compact feel */
+  margin: 2.5rem auto; /* Adjusted margin for better vertical spacing */
+  padding: 1.5rem; /* Increased padding slightly */
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem; /* Slightly smaller font for subtlety */
+  font-weight: 500;
+  margin-bottom: 1.8rem; /* Adjusted margin */
+  cursor: pointer;
+  display: flex; /* Aligned icon/text if added */
+  align-items: center;
+  gap: 0.5rem; /* Space for a potential arrow icon */
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: var(--color-primary); /* Highlight on hover */
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  padding: 2.5rem; /* Slightly reduced padding for a tighter look */
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-light); /* Apply subtle shadow */
+}
+
+@media (min-width: 768px) {
+  .detail-card {
+    flex-direction: row; /* Ensures image and info are side-by-side */
+    gap: 3.5rem; /* Slightly reduced gap */
+    padding: 3rem;
+    align-items: flex-start; /* Align items to the top for better info flow */
+  }
+}
+
+
+/* ---
+   3. Content Panels
+--- */
+.detail-image-wrapper {
+  flex-shrink: 0; /* Prevent wrapper from shrinking */
+  display: flex;
+  align-items: flex-start; /* Align image to the top within its wrapper */
+  justify-content: flex-start; /* Aligns image to the left within its wrapper */
+  padding: 1rem; /* Added padding around image */
+}
+
+.detail-info {
+  flex: 1; /* Allows info section to take up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Applying user's requested image size and styling, adjusted for better layout */
+.detail-image-wrapper img {
+  width: 350px; /* Adjusted image size to allow more space for info */
+  height: 350px; /* Adjusted image size */
+  object-fit: cover;
+  border-radius: var(--border-radius); /* Rounded corners for image */
+  box-shadow: var(--shadow-light); /* Subtle shadow for depth */
+}
+
+/* The .detail-image class is now redundant as styling is applied to img directly */
+.detail-image {
+  /* This rule is kept for backward compatibility if HTML uses this class, but .detail-image-wrapper img is prioritized */
+  width: 100%; /* Ensure it fills its container if no specific img tag rule */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain;
+  border-radius: var(--border-radius);
+  background-color: #f7f7f7;
+}
+
+
+.detail-info h2 {
+  font-size: 2rem; /* Slightly smaller for minimalism */
+  font-weight: 700;
+  margin: 0 0 0.5rem 0; /* Reduced margin */
+  color: var(--color-text-primary);
+}
+
+.detail-info p {
+  font-size: 0.95rem; /* Slightly smaller font for description */
+  color: var(--color-text-secondary);
+  margin: 0.5rem 0; /* Adjusted margin */
+}
+
+.detail-price {
+  font-size: 2.2rem; /* Slightly smaller but still prominent */
+  font-weight: 700;
+  margin: 1.2rem 0 1.8rem 0; /* Adjusted margins */
+  color: var(--color-primary); /* Highlight price */
+}
+
+
+/* ---
+   4. Interactive Elements
+--- */
+.detail-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border); /* Corrected variable name */
+}
+
+.quantity-input {
+  width: 100%;
+  max-width: 120px; /* Constrained width for a cleaner look */
+  align-self: flex-start; /* Align to the left */
+  padding: 0.8rem; /* Slightly reduced padding */
+  border-radius: 8px; /* Slightly less rounded for input */
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  font-size: 0.95rem; /* Consistent font size */
+  font-weight: 500;
+  text-align: center;
+  color: var(--color-text-primary); /* Corrected variable name */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); /* Subtle focus ring */
+}
+
+.buy-button {
+  width: 100%;
+  padding: 1rem 1.5rem; /* Added horizontal padding */
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2); /* Subtle shadow for button */
+}
+
+.buy-button:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+  box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3); /* Enhanced shadow on hover */
+}
+
+.buy-button:disabled {
+  background-color: var(--color-disabled-bg);
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none; /* No shadow when disabled */
+}
+
+
+/* ---
+   5. Dark & Light Theme Integration (Untouched as requested)
+--- */
+[data-theme='dark'] {
+  --color-primary: #0a84ff;
+  --color-primary-dark: #007aff;
+  --color-background: #000000;
+  --color-surface: #1c1c1e;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #8d96a7;
+  --color-border: #3a3a3c;
+  --color-disabled-bg: #2c2c2e;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+}
