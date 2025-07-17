@@ -1,164 +1,260 @@
-/* src/CartPage.css */
+/* ---
+   1. Design System & Theming Engine
+   This section defines the colors for both themes.
+--- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* --- Light Theme (Default) --- */
+  --primary-color: #007aff;
+  --primary-hover: #0056b3;
+  --danger-color: #e53935;
+  --danger-hover: #c62828;
+  --background-light: #f7f9fc;
+  --background-card: #ffffff;
+  --text-primary: #1d2d35;
+  --text-secondary: #5a6a72;
+  --border-color: #e8eef3;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* --- Dark Theme Overrides --- */
+/* When the <html> tag has data-theme="dark", these colors are used instead */
+[data-theme='dark'] {
+  --background-light: #1e293b; /* Darker grey for summary background */
+  --background-card: #2c3a4f;  /* Darker grey for card background */
+  --text-primary: #f8fafc;      /* White text */
+  --text-secondary: #a0aec0;    /* Light grey text */
+  --border-color: #334155;      /* Darker borders */
+}
+
+
+/* ---
+   2. Cart Page Styles
+   These styles use the variables above and will now adapt automatically.
+--- */
 
 .cart-page-container {
-  padding: 3rem 2rem;
-  max-width: 900px;
-  margin: 0 auto; /* Center the cart container */
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Slightly softer initial shadow */
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  font-family: var(--font-main);
+  background-color: transparent;
+  box-shadow: none;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
 }
 
 .cart-page-container h2 {
-  color: #2c3e50;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.03); /* Even lighter text shadow */
+  color: var(--text-primary);
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 2rem;
 }
 
 .empty-cart-message {
   text-align: center;
-  font-size: 1.5rem;
-  color: #555;
-  padding: 50px 0;
-  font-style: italic; /* Add a slight emphasis */
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  padding: 4rem 1rem;
+  background-color: var(--background-card);
+  border-radius: 16px;
+  border: 1px dashed var(--border-color);
+}
+
+.cart-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .cart-layout-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 }
 
 .cart-items-wrapper {
+  flex: 2;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Consistent spacing between cart item cards */
+  gap: 1rem;
 }
 
 .cart-item-card {
   display: flex;
   align-items: center;
-  gap: 20px;
-  border: 1px solid #e9eef5; /* Lighter, softer border */
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: var(--background-card);
   border-radius: 12px;
-  padding: 1.5rem;
-  background-color: #fcfdff; /* Very subtle off-white background */
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04); /* Very light initial shadow */
-  transition: all 0.2s ease-out; /* Slightly faster and smoother transition */
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .cart-item-card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06); /* Slightly more visible on hover */
-  transform: translateY(-2px); /* Subtle lift */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
 }
 
 .cart-item-image {
-  width: 100px; /* Slightly smaller image for minimalism */
-  height: 100px; /* Keep aspect ratio consistent */
-  object-fit: contain;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
   border-radius: 8px;
-  border: 1px solid #f0f0f0; /* Very light border */
-  flex-shrink: 0; /* Prevents image from shrinking */
-  background-color: #ffffff; /* Ensure white background for transparent images */
-  padding: 5px; /* Small padding inside image border */
+  flex-shrink: 0;
 }
 
 .cart-item-details {
-  flex-grow: 1; /* Allows details to take up remaining space */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .cart-item-details h3 {
-  font-size: 1.5rem; /* Slightly reduced font size */
-  color: #34495e;
-  margin-bottom: 0.4rem; /* Reduced margin */
-  font-weight: 600; /* Ensure prominence */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .cart-item-details p {
-  font-size: 1rem; /* Consistent body text size */
-  color: #555;
-  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .cart-item-quantity-controls {
   display: flex;
   align-items: center;
-  gap: 8px; /* Slightly less gap */
-  margin-top: 8px;
-  margin-bottom: 8px;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .cart-item-quantity-controls button {
-  background-color: #e8f0f8; /* Lighter background for controls */
-  color: #4a69bd; /* Primary color for text */
-  border: 1px solid #cce0f5; /* Soft border */
-  border-radius: 5px;
-  width: 30px;
-  height: 30px;
-  font-size: 1.1rem; /* Slightly smaller font for control buttons */
-  font-weight: 700; /* Bold numbers */
+  background-color: var(--background-light);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 1;
 }
 
 .cart-item-quantity-controls button:hover:not(:disabled) {
-  background-color: #dbe9f5; /* Subtle hover background */
-  color: #3a54a0; /* Darker text on hover */
-  border-color: #a77ff0; /* Primary accent on hover */
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
 }
 
 .cart-item-quantity-controls button:disabled {
-  opacity: 0.4; /* More faded when disabled */
+  opacity: 0.5;
   cursor: not-allowed;
-  background-color: #f7f7f7; /* Keep background very light */
-  border-color: #eee;
 }
 
 .cart-item-quantity-controls span {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  min-width: 25px;
+  color: var(--text-primary);
+  min-width: 20px;
   text-align: center;
-  color: #333;
 }
 
 .remove-item-btn {
-  background-color: #ff7675; /* A slightly softer red */
-  color: white;
+  background: none;
   border: none;
-  border-radius: 6px;
-  padding: 0.5rem 0.9rem; /* Slightly smaller padding */
-  font-size: 0.85rem; /* Slightly smaller font */
+  color: var(--danger-color);
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 0.8rem; /* Slightly less margin */
+  padding: 0;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  transition: color 0.2s ease;
 }
 
 .remove-item-btn:hover {
-  background-color: #eb4d4b; /* Darker red on hover */
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Lighter shadow on hover */
+  color: var(--danger-hover);
+  text-decoration: underline;
 }
 
 .cart-summary {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px dashed #dbe9f5; /* Lighter dashed line */
-  text-align: right;
+  flex: 1;
+  background-color: var(--background-light);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--border-color);
+  position: sticky;
+  top: 2rem;
+  text-align: left;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .cart-summary h3 {
-  font-size: 2rem; /* Slightly smaller total font size */
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
-  font-weight: 700; /* Bold for emphasis */
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.summary-row span:first-child {
+  color: var(--text-secondary);
+}
+.summary-row span:last-child {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.summary-total {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.summary-total span:last-child {
+  font-size: 1.5rem;
+  color: var(--primary-color);
 }
 
 .checkout-btn {
-  /* Inherits .btn styles from App.css, so these specific overrides are minimal */
-  width: auto;
-  min-width: 200px;
-  display: inline-block;
-  text-align: center; /* Ensure text is centered within the button */
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2);
+}
+
+.checkout-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3);
+}
+
+.checkout-btn:disabled {
+  background-color: #ccc;
+  box-shadow: none;
+  cursor: not-allowed;
 }

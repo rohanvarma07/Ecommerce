@@ -1,61 +1,98 @@
 import React from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './CartPage.css';
 
-function CartPage({ cartItems, onUpdateQuantity, onRemoveItem }) {
+// The component now accepts `allProducts` to check against available stock.
+function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, allProducts = [], setCartItems, onCheckoutComplete }) {
+
   const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantityInCart), 0);
+  
+  // NOTE: You would need a real checkout handler like the one we built before.
+  // This is just a placeholder to match the original code.
+  const handleCheckout = () => {
+     if (cartItems.length === 0) {
+      toast.warn("Your cart is empty.");
+      return;
+    }
+    // A full implementation would go here.
+    toast.info("Checkout functionality is under construction.");
+  };
 
   return (
     <div className="cart-page-container">
+      {/* Add ToastContainer to display notifications */}
+      <ToastContainer position="top-center" autoClose={2500} />
       <h2>Your Shopping Cart</h2>
 
       {cartItems.length === 0 ? (
         <p className="empty-cart-message">Your cart is empty. Start shopping!</p>
       ) : (
         <div className="cart-items-wrapper">
-          {cartItems.map(item => (
-            <div key={item.id} className="cart-item-card">
-              {/* --- MODIFIED: Use item.imgUrl --- */}
-              {item.imgUrl && (
+          {cartItems.map(item => {
+            // Find the full details of the product to get its total stock
+            const productInStock = allProducts.find(p => p.id === item.id);
+            const totalStock = productInStock ? productInStock.quantity : 0;
+            const isOutOfStock = totalStock === 0;
+
+            return (
+              <div key={item.id} className={`cart-item-card ${isOutOfStock ? 'disabled-item' : ''}`}>
                 <img
-                  src={`http://localhost:8080${item.imgUrl}`}
-                  alt={item.description || 'Product image'}
+                  src={`http://localhost:8081${item.imgUrl}`}
+                  alt={item.description}
                   className="cart-item-image"
                 />
-              )}
-              {/* --- END MODIFIED --- */}
-              <div className="cart-item-details">
-                <h3>{item.description}</h3>
-                {/* --- NEW: Optionally display model in cart --- */}
-                {item.model && <p>Model: {item.model}</p>}
-                {/* --- END NEW --- */}
-                <p>Price: ₹{item.price}</p>
-                <div className="cart-item-quantity-controls">
+                <div className="cart-item-details">
+                  <h3>{item.description}</h3>
+                  {item.model && <p>Model: {item.model}</p>}
+                  <p>Price: ₹{item.price.toFixed(2)}</p>
+
+                  {/* --- NEW: Conditional Rendering based on stock --- */}
+                  {!isOutOfStock ? (
+                    <div className="cart-item-quantity-controls">
+                      <button
+                        onClick={() => onUpdateQuantity(item.id, item.quantityInCart - 1)}
+                        disabled={item.quantityInCart <= 1}
+                      >
+                        -
+                      </button>
+                      <span>{item.quantityInCart}</span>
+                      <button
+                        onClick={() => {
+                          // Only increase if cart quantity is less than total stock
+                          if (item.quantityInCart < totalStock) {
+                            onUpdateQuantity(item.id, item.quantityInCart + 1);
+                          } else {
+                            toast.warn(`No more stock for "${item.description}".`);
+                          }
+                        }}
+                        // Disable button if cart quantity matches or exceeds total stock
+                        disabled={item.quantityInCart >= totalStock}
+                      >
+                        +
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="out-of-stock-message">Out of Stock</p>
+                  )}
+                  {/* --- END NEW --- */}
+
+                  <p>Subtotal: ₹{(item.price * item.quantityInCart).toFixed(2)}</p>
                   <button
-                    onClick={() => onUpdateQuantity(item.id, item.quantityInCart - 1)}
-                    disabled={item.quantityInCart <= 1}
+                    className="remove-item-btn"
+                    onClick={() => onRemoveItem(item.id)}
                   >
-                    -
-                  </button>
-                  <span>{item.quantityInCart}</span>
-                  <button
-                    onClick={() => onUpdateQuantity(item.id, item.quantityInCart + 1)}
-                  >
-                    +
+                    Remove
                   </button>
                 </div>
-                <p>Subtotal: ₹{(item.price * item.quantityInCart).toFixed(2)}</p>
-                <button
-                  className="remove-item-btn"
-                  onClick={() => onRemoveItem(item.id)}
-                >
-                  Remove
-                </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
           <div className="cart-summary">
             <h3>Total: ₹{totalAmount.toFixed(2)}</h3>
-            <button className="btn checkout-btn">Proceed to Checkout</button>
+            <button className="btn checkout-btn" onClick={handleCheckout}>
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       )}
