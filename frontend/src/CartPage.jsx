@@ -7,16 +7,28 @@ import './CartPage.css';
 function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, allProducts = [], setCartItems, onCheckoutComplete }) {
 
   const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantityInCart), 0);
-  
-  // NOTE: You would need a real checkout handler like the one we built before.
-  // This is just a placeholder to match the original code.
+
   const handleCheckout = () => {
-     if (cartItems.length === 0) {
-      toast.warn("Your cart is empty.");
+    if (cartItems.length === 0) {
+      toast.warn("Your cart is empty. Add items before checking out!");
       return;
     }
-    // A full implementation would go here.
-    toast.info("Checkout functionality is under construction.");
+
+    // Simulate a successful checkout process
+    // In a real application, you would integrate with a payment gateway
+    // and update backend stock here.
+    console.log("Processing checkout for items:", cartItems);
+
+    // Clear the cart after successful checkout
+    setCartItems([]); // Assuming setCartItems is passed as a prop to clear the cart
+
+    // Notify the user of successful checkout
+    toast.success("Checkout successful! Your order has been placed.");
+
+    // Call the onCheckoutComplete callback if provided
+    if (onCheckoutComplete) {
+      onCheckoutComplete();
+    }
   };
 
   return (
@@ -37,6 +49,7 @@ function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, allProducts = [],
 
             return (
               <div key={item.id} className={`cart-item-card ${isOutOfStock ? 'disabled-item' : ''}`}>
+                {/* Ensure img src is correct, assuming it's served from localhost:8081 */}
                 <img
                   src={`http://localhost:8081${item.imgUrl}`}
                   alt={item.description}
